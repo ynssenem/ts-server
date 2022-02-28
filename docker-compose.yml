@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+    postgres:
+        image: postgres:14-alpine
+        environment:
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+        ports:
+            - "5432:5432"
+        volumes:
+            - db_data:/var/lib/postgresql/data:rw
+    # redis:
+    #     image: redis:6.2-alpine
+    #     ports:
+    #         - "6379:6379"
+    #     command: redis-server --save 60 1 --requirepass ${REDIS_PASSWORD} --loglevel
+volumes:
+    db_data:

@@ -1,0 +1,48 @@
+scalar DateTime
+
+type Query {
+    time: DateTime
+    me: User!
+    user(id: Int!): User!
+    users: [User]!
+}
+
+type Mutation {
+    # User Area
+    createLogin(email: String!, password: String!): LoginPayload!
+    createUser(email: String!, password: String!): LoginPayload!
+    updateUser(id: Int!, email: String, status: String, role: String, accessRole: [String]): User!
+    updateUserPassword(id: Int!, password: String!): User!
+
+    # VerifyCode Area
+    createResetPasswordRequest(email: String!, type: String!): VerifyCode!
+    createResetPassword(userId: Int!, password: String!, code: String!): User!
+}
+
+type User {
+    id: ID!
+    email: String!
+    password: String!
+    status: String!
+    role: String!
+    accessRole: [String]
+    createdAt: DateTime
+    lastLoginAt: DateTime
+    updateAt: DateTime
+    verifyCodes: [VerifyCode]
+}
+
+type VerifyCode {
+    id: ID!
+    userId: Int
+    user: [User!]
+    code: String!
+    type: String!
+    createdAt: DateTime
+    expiresIn: DateTime
+}
+
+type LoginPayload {
+    user: User!
+    token: String!
+}
